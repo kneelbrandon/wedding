@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Myrrah Ericka & Neil Brandon — Wedding Invitation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* ─── RESET & BASE ─── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FAFAF8;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ─── CSS VARIABLES ─── */
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #F5F3EF;
+      --bg-success: #EAF3DE;
+      --bg-danger: #FCEBEB;
+      --bg-info: #E6F1FB;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b6b6b;
+      --text-tertiary: #aaaaaa;
+      --text-success: #3B6D11;
+      --text-danger: #A32D2D;
+      --text-info: #185FA5;
+      --border-light: rgba(0,0,0,0.10);
+      --border-mid: rgba(0,0,0,0.18);
+      --border-strong: rgba(0,0,0,0.30);
+      --radius-sm: 2px;
+      --radius-md: 4px;
+    }
+
+    /* ─── LAYOUT ─── */
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 0 4rem;
+    }
+
+    /* ─── TAB BAR ─── */
+    .tab-bar {
+      display: flex;
+      border-bottom: 0.5px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      background: #FAFAF8;
+      z-index: 10;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 14px 0;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--text-secondary);
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .tab.active {
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--text-primary);
+    }
+
+    /* ─── PAGES ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── PHOTO FRAME ─── */
+    .photo-frame {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 0.5px solid var(--border-light);
+      margin: 0 auto 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--bg-secondary);
+      cursor: pointer;
+      position: relative;
+    }
+    .photo-frame:hover { border-color: var(--border-mid); }
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .photo-placeholder { text-align: center; padding: 1rem; }
+    .photo-placeholder svg {
+      width: 28px; height: 28px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+      display: block;
+      margin-left: auto; margin-right: auto;
+    }
+    .photo-placeholder span {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+    #photo-input { display: none; }
+
+    /* ─── HERO ─── */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1.5rem 1.5rem;
+    }
+    .hero-date {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .hero-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      color: var(--text-secondary);
+      margin-bottom: 0.4rem;
+    }
+    .hero-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 300;
+      line-height: 2.4;
+      color: var(--text-primary);
+    }
+    .hero-amp {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      display: block;
+      line-height: 1;
+    }
+    .hero-divider {
+      width: 40px;
+      height: 0.5px;
+      background: var(--border-strong);
+      margin: 1.5rem auto;
+    }
+    .hero-venue {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      line-height: 2.1;
+    }
+
+    /* ─── COUNTDOWN ─── */
+    .countdown-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 1.75rem 1.5rem;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .countdown-unit {
+      flex: 1;
+      text-align: center;
+      padding: 16px 8px;
+      border-right: 0.5px solid var(--border-light);
+    }
+    .countdown-unit:last-child { border-right: none; }
+    .countdown-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--text-primary);
+      display: block;
+    }
+    .countdown-lbl {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-top: 5px;
+      display: block;
+    }
+
+    /* ─── NAV BUTTONS (Maps / Waze) ─── */
+    .nav-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      padding: 0 1.5rem 1.5rem;
+    }
+    .nav-btn {
+      flex: 1;
+      max-width: 190px;
+      padding: 11px 0;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 0.5px solid var(--border-mid);
+      border-radius: var(--radius-sm);
+      background: none;
+      color: var(--text-primary);
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: background 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .nav-btn:hover { background: var(--bg-secondary); }
+    .nav-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ─── COLLAPSIBLE INFO BLOCKS ─── */
+    .info-block {
+      margin: 0 1.5rem 1rem;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .info-header {
+      padding: 13px 1.25rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      background: var(--bg-primary);
+    }
+    .info-header:hover { background: var(--bg-secondary); }
+    .info-header span {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .info-header svg {
+      width: 14px; height: 14px;
+      color: var(--text-tertiary);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .info-header.open svg { transform: rotate(180deg); }
+    .info-body {
+      display: none;
+      border-top: 0.5px solid var(--border-light);
+      padding: 1.25rem;
+      background: var(--bg-primary);
+    }
+    .info-body.open { display: block; }
+
+    /* ─── DRESS CODE ─── */
+    .dress-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+    .dress-card {
+      padding: 1rem;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+    .dress-swatch {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      border: 0.5px solid var(--border-light);
+    }
+    .dress-role {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    .dress-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text-primary);
+    }
+    .dress-note {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+    .dress-notice {
+      padding: 10px 14px;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-sm);
+    }
+    .dress-notice-label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+    .dress-notice p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ─── PROGRAM ─── */
+    .program-item {
+      display: flex;
+      gap: 1rem;
+      padding: 11px 0;
+      border-bottom: 0.5px solid var(--border-light);
+    }
+    .program-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .prog-time {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--text-tertiary);
+      width: 64px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .prog-event { font-size: 13px; color: var(--text-primary); }
+    .prog-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5; }
+
+    /* ─── RSVP CTA ─── */
+    .rsvp-cta {
+      margin: 0 1.5rem 1rem;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      text-align: center;
+      background: var(--bg-primary);
+    }
+    .rsvp-cta-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 0.4rem;
+    }
+    .rsvp-cta-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    /* ─── BUTTONS ─── */
+    .submit-btn {
+      padding: 12px 28px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .submit-btn:hover { opacity: 0.75; }
+    .submit-btn.full { width: 100%; }
+
+    /* ─── RSVP FORM ─── */
+    .section { padding: 0 1.5rem; }
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 1.25rem;
+    }
+    .rsvp-card {
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      background: var(--bg-primary);
+    }
+    .rsvp-card label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .rsvp-card input,
+    .rsvp-card select,
+    .rsvp-card textarea {
+      width: 100%;
+      background: none;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .rsvp-card input:focus,
+    .rsvp-card select:focus,
+    .rsvp-card textarea:focus { border-color: var(--border-strong); }
+    .rsvp-card textarea { resize: vertical; min-height: 80px; }
+    .attend-row { display: flex; gap: 8px; margin-bottom: 1rem; }
+    .attend-btn {
+      flex: 1;
+      padding: 11px;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      background: none;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .attend-btn.selected-yes {
+      background: var(--bg-success);
+      border-color: #7ab84d;
+      color: var(--text-success);
+    }
+    .attend-btn.selected-no {
+      background: var(--bg-danger);
+      border-color: #e24b4a;
+      color: var(--text-danger);
+    }
+    .optional-tag { font-size: 10px; color: var(--text-tertiary); }
+
+    /* ─── RSVP SUCCESS ─── */
+    .success-msg {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .success-msg p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 26px;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+    .success-msg span { font-size: 13px; color: var(--text-secondary); }
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.5rem;
+      padding: 10px 24px;
+      border: 0.5px solid var(--border-mid);
+      border-radius: var(--radius-sm);
+      background: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: background 0.15s;
+    }
+    .ghost-btn:hover { background: var(--bg-secondary); }
+
+    /* ─── RESPONSES ─── */
+    .stats-row { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .stat-pill {
+      padding: 6px 14px;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .stat-pill strong { color: var(--text-primary); font-weight: 500; margin-right: 4px; }
+    .filter-row { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 5px 12px;
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      background: none;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .filter-btn.active {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+    .responses-wrap { overflow-x: auto; }
+    .resp-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .resp-table th {
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      padding: 8px 10px;
+      border-bottom: 0.5px solid var(--border-light);
+      font-weight: 400;
+    }
+    .resp-table td {
+      padding: 11px 10px;
+      border-bottom: 0.5px solid var(--border-light);
+      vertical-align: top;
+      color: var(--text-primary);
+    }
+    .resp-table tr:last-child td { border-bottom: none; }
+
+    /* ─── BADGES ─── */
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .badge-yes  { background: var(--bg-success); color: var(--text-success); }
+    .badge-no   { background: var(--bg-danger);  color: var(--text-danger); }
+    .badge-sponsor   { background: var(--bg-info); color: var(--text-info); }
+    .badge-entourage { background: #FAEEDA; color: #633806; }
+    .badge-guest     { background: var(--bg-secondary); color: var(--text-secondary); }
+
+    .del-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-tertiary); font-size: 18px;
+      padding: 2px 6px; transition: color 0.15s;
+      line-height: 1;
+    }
+    .del-btn:hover { color: #A32D2D; }
+    .empty-state {
+      text-align: center; padding: 3rem;
+      color: var(--text-tertiary); font-size: 13px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 480px) {
+      .dress-grid { grid-template-columns: 1fr; }
+      .hero-names { font-size: 13px; }
+      .hero-amp { font-size: 38px; }
+      .countdown-num { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<input type="file" id="photo-input" accept="image/*">
+
+<div class="wrap">
+
+  <!-- ═══ TAB BAR ═══ -->
+  <div class="tab-bar">
+    <button class="tab active" onclick="showPage('invite')">Invitation</button>
+    <button class="tab" onclick="showPage('rsvp')">RSVP</button>
+    <button class="tab" onclick="showPage('responses')">Responses</button>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 1 — INVITATION
+  ═══════════════════════════════════════════ -->
+  <div id="page-invite" class="page active">
+
+    <div class="hero">
+
+      <!-- PHOTO (click to upload) -->
+      <div class="photo-frame" onclick="document.getElementById('photo-input').click()" title="Tap to upload couple photo">
+        <img id="couple-photo" alt="Couple photo">
+        <div class="photo-placeholder" id="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="3.5"/>
+            <path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/>
+          </svg>
+          <span>Add photo</span>
+        </div>
+      </div>
+
+      <!-- ── EDIT: Change date here ── -->
+      <div class="hero-date">September 24, 2027</div>
+
+      <div class="hero-label">the wedding of</div>
+
+      <!-- ── EDIT: Change bride name here ── -->
+      <div class="hero-names">Myrrah Ericka Llanera</div>
+
+      <span class="hero-amp">&amp;</span>
+
+      <!-- ── EDIT: Change groom name here ── -->
+      <div class="hero-names">Neil Brandon Salvador</div>
+
+      <div class="hero-divider"></div>
+
+      <!-- ── EDIT: Change venue / time here ── -->
+      <div class="hero-venue">
+        Bella Rosa Gardens · Silang, Cavite<br>
+        4:00 PM · Ceremony &amp; Reception
+      </div>
+    </div>
+
+    <!-- COUNTDOWN TIMER -->
+    <!-- ── EDIT: Change wedding datetime in the JS section below ── -->
+    <div class="countdown-wrap">
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-days">--</span>
+        <span class="countdown-lbl">Days</span>
+      </div>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-hours">--</span>
+        <span class="countdown-lbl">Hours</span>
+      </div>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-mins">--</span>
+        <span class="countdown-lbl">Minutes</span>
+      </div>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-secs">--</span>
+        <span class="countdown-lbl">Seconds</span>
+      </div>
+    </div>
+
+    <!-- NAVIGATION BUTTONS -->
+    <!-- ── EDIT: Update venue name in the href URLs ── -->
+    <div class="nav-row">
+      <a class="nav-btn"
+         href="https://maps.google.com/?q=Bella+Rosa+Gardens+Silang+Cavite"
+         target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        Google Maps
+      </a>
+      <a class="nav-btn"
+         href="https://waze.com/ul?q=Bella+Rosa+Gardens+Silang+Cavite&navigate=yes"
+         target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="11" r="6"/>
+          <path d="M9.5 10.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5"/>
+          <circle cx="10" cy="12.5" r=".6" fill="currentColor" stroke="none"/>
+          <circle cx="14" cy="12.5" r=".6" fill="currentColor" stroke="none"/>
+          <path d="M12 17v2M8 18.5l1.5-1.5M16 18.5l-1.5-1.5"/>
+        </svg>
+        Waze
+      </a>
+    </div>
+
+    <!-- ─── DRESS CODE SECTION ─── -->
+    <!-- ── EDIT: Update dress code details inside .dress-grid ── -->
+    <div class="info-block">
+      <div class="info-header open" onclick="toggleInfo(this)">
+        <span>Dress Code</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </div>
+      <div class="info-body open">
+        <div class="dress-grid">
+
+          <!-- ── EDIT: Update swatch background color, role, description, note ── -->
+          <div class="dress-card">
+            <div class="dress-swatch" style="background:#F5F0EB;"></div>
+            <div class="dress-role">Guests — Ladies</div>
+            <div class="dress-desc">Cocktail / Formal</div>
+            <div class="dress-note">Warm neutrals, blush, ivory, champagne</div>
+          </div>
+
+          <div class="dress-card">
+            <div class="dress-swatch" style="background:#C8D4CC;"></div>
+            <div class="dress-role">Guests — Gentlemen</div>
+            <div class="dress-desc">Barong or Suit</div>
+            <div class="dress-note">Sage green, slate, or classic black</div>
+          </div>
+
+          <div class="dress-card">
+            <div class="dress-swatch" style="background:#D4C5B8;"></div>
+            <div class="dress-role">Entourage — Ladies</div>
+            <div class="dress-desc">Dusty Rose Gown</div>
+            <div class="dress-note">Floor-length, as coordinated</div>
+          </div>
+
+          <div class="dress-card">
+            <div class="dress-swatch" style="background:#3D3D3D;"></div>
+            <div class="dress-role">Entourage — Gentlemen</div>
+            <div class="dress-desc">Black Barong</div>
+            <div class="dress-note">As provided by the couple</div>
+          </div>
+        </div>
+
+        <!-- ── EDIT: Update the dress code note below ── -->
+        <div class="dress-notice">
+          <div class="dress-notice-label">Please note</div>
+          <p>Kindly avoid wearing white, off-white, or any shade reserved for the bride. Thank you for helping make our day special.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PROGRAM OF EVENTS ─── -->
+    <!-- ── EDIT: Add, remove, or update program items below ── -->
+    <div class="info-block">
+      <div class="info-header" onclick="toggleInfo(this)">
+        <span>Program of Events</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </div>
+      <div class="info-body">
+
+        <div class="program-item">
+          <div class="prog-time">3:00 PM</div>
+          <div>
+            <div class="prog-event">Guest Arrival &amp; Registration</div>
+            <div class="prog-sub">Welcome drinks at the garden foyer</div>
+          </div>
+        </div>
+
+        <div class="program-item">
+          <div class="prog-time">4:00 PM</div>
+          <div>
+            <div class="prog-event">Wedding Ceremony</div>
+            <div class="prog-sub">Processional · Rites · Exchange of vows</div>
+          </div>
+        </div>
+
+        <div class="program-item">
+          <div class="prog-time">5:00 PM</div>
+          <div>
+            <div class="prog-event">Cocktail Hour</div>
+            <div class="prog-sub">Garden terrace · Photo opportunities</div>
+          </div>
+        </div>
+
+        <div class="program-item">
+          <div class="prog-time">6:00 PM</div>
+          <div>
+            <div class="prog-event">Reception &amp; Dinner</div>
+            <div class="prog-sub">Entrance of newlyweds · Program proper</div>
+          </div>
+        </div>
+
+        <div class="program-item">
+          <div class="prog-time">6:30 PM</div>
+          <div>
+            <div class="prog-event">Toasts &amp; Messages</div>
+            <div class="prog-sub">Principal sponsors · Best man · Maid of honor</div>
+          </div>
+        </div>
+
+        <div class="program-item">
+          <div class="prog-time">7:00 PM</div>
+          <div>
+            <div class="prog-event">First Dance &amp; Special Dances</div>
+            <div class="prog-sub">Couple · Parents · Money dance</div>
+          </div>
+        </div>
+
+        <div class="program-item">
+          <div class="prog-time">8:00 PM</div>
+          <div>
+            <div class="prog-event">Open Dance Floor</div>
+            <div class="prog-sub">Live entertainment · Dessert buffet</div>
+          </div>
+        </div>
+
+        <div class="program-item">
+          <div class="prog-time">10:00 PM</div>
+          <div>
+            <div class="prog-event">Bouquet Toss &amp; Send-off</div>
+            <div class="prog-sub">Thank you &amp; farewell</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RSVP CALL TO ACTION -->
+    <!-- ── EDIT: Update RSVP deadline text below ── -->
+    <div class="rsvp-cta">
+      <div class="rsvp-cta-label">Kindly confirm by August 1, 2027</div>
+      <div class="rsvp-cta-sub">We hope to celebrate with you</div>
+      <button class="submit-btn" onclick="showPage('rsvp')">Send My RSVP</button>
+    </div>
+
+  </div><!-- end page-invite -->
+
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 2 — RSVP FORM
+  ═══════════════════════════════════════════ -->
+  <div id="page-rsvp" class="page">
+
+    <div id="rsvp-form-wrap" class="section">
+      <div class="section-label" style="margin-bottom:1.5rem;">Your response</div>
+      <div class="rsvp-card">
+
+        <label>Full name</label>
+        <input type="text" id="rsvp-name" placeholder="Your full name">
+
+        <label>Guest type</label>
+        <select id="rsvp-type" onchange="toggleSponsor()">
+          <!-- ── EDIT: Add or remove guest type options here ── -->
+          <option value="guest">Guest</option>
+          <option value="entourage">Entourage</option>
+          <option value="sponsor">Sponsor</option>
+        </select>
+
+        <label>Will you attend?</label>
+        <div class="attend-row">
+          <button class="attend-btn" id="btn-yes" onclick="selectAttend('yes')">Joyfully accepts</button>
+          <button class="attend-btn" id="btn-no"  onclick="selectAttend('no')">Regretfully declines</button>
+        </div>
+
+        <label>Message to the couple <span class="optional-tag">(optional)</span></label>
+        <textarea id="rsvp-msg" placeholder="Share your wishes..."></textarea>
+
+        <!-- Sponsor-only fields (hidden by default) -->
+        <div id="sponsor-fields" style="display:none;">
+          <label>Company / Organization</label>
+          <input type="text" id="rsvp-company" placeholder="Company name">
+
+          <label>Sponsorship type</label>
+          <select id="rsvp-sponsorship">
+            <!-- ── EDIT: Add or remove sponsorship options ── -->
+            <option value="flowers">Flowers</option>
+            <option value="catering">Catering</option>
+            <option value="photography">Photography</option>
+            <option value="venue">Venue</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+
+        <button class="submit-btn full" onclick="submitRSVP()">Confirm RSVP</button>
+      </div>
+    </div>
+
+    <!-- Success state (shown after submission) -->
+    <div id="rsvp-success" style="display:none;" class="section">
+      <div class="success-msg">
+        <!-- ── EDIT: Change success message text ── -->
+        <p>Thank you!</p>
+        <span>Your RSVP has been received. See you on September 24!</span>
+        <br>
+        <button class="ghost-btn" onclick="resetRSVP()">Submit another response</button>
+      </div>
+    </div>
+
+  </div><!-- end page-rsvp -->
+
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 3 — RESPONSES DASHBOARD
+  ═══════════════════════════════════════════ -->
+  <div id="page-responses" class="page">
+    <div class="section">
+
+      <div id="stats-row" class="stats-row"></div>
+
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+        <button class="filter-btn" onclick="setFilter('guest', this)">Guests</button>
+        <button class="filter-btn" onclick="setFilter('entourage', this)">Entourage</button>
+        <button class="filter-btn" onclick="setFilter('sponsor', this)">Sponsors</button>
+        <button class="filter-btn" onclick="setFilter('yes', this)">Attending</button>
+        <button class="filter-btn" onclick="setFilter('no', this)">Declined</button>
+      </div>
+
+      <div class="responses-wrap">
+        <table class="resp-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>RSVP</th>
+              <th>Message</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="resp-tbody"></tbody>
+        </table>
+        <div id="empty-state" class="empty-state" style="display:none;">No responses yet.</div>
+      </div>
+
+    </div>
+  </div><!-- end page-responses -->
+
+</div><!-- end .wrap -->
+
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+
+  /* ─── DATA STORAGE ───
+     Responses are saved to localStorage so they persist between sessions.
+     Key: 'wedding_rsvp_v2'
+     ── EDIT: Change the key if you want a fresh slate ── */
+  let responses = [];
+  try { responses = JSON.parse(localStorage.getItem('wedding_rsvp_v2') || '[]'); } catch(e) {}
+
+  let attend = null;
+  let currentFilter = 'all';
+
+  function save() {
+    try { localStorage.setItem('wedding_rsvp_v2', JSON.stringify(responses)); } catch(e) {}
+  }
+
+
+  /* ─── TAB NAVIGATION ─── */
+  function showPage(p) {
+    document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('page-' + p).classList.add('active');
+    const tabs = ['invite', 'rsvp', 'responses'];
+    document.querySelectorAll('.tab')[tabs.indexOf(p)].classList.add('active');
+    if (p === 'responses') renderResponses();
+  }
+
+
+  /* ─── COLLAPSIBLE SECTIONS ─── */
+  function toggleInfo(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('open');
+  }
+
+
+  /* ─── RSVP FORM ─── */
+  function selectAttend(val) {
+    attend = val;
+    document.getElementById('btn-yes').className = 'attend-btn' + (val === 'yes' ? ' selected-yes' : '');
+    document.getElementById('btn-no').className  = 'attend-btn' + (val === 'no'  ? ' selected-no'  : '');
+  }
+
+  function toggleSponsor() {
+    const isSponsor = document.getElementById('rsvp-type').value === 'sponsor';
+    document.getElementById('sponsor-fields').style.display = isSponsor ? 'block' : 'none';
+  }
+
+  function submitRSVP() {
+    const name = document.getElementById('rsvp-name').value.trim();
+    if (!name)   { alert('Please enter your name.'); return; }
+    if (!attend) { alert('Please indicate if you will attend.'); return; }
+
+    const type = document.getElementById('rsvp-type').value;
+    const entry = {
+      id:          Date.now(),
+      name:        name,
+      type:        type,
+      attend:      attend,
+      msg:         document.getElementById('rsvp-msg').value.trim(),
+      company:     type === 'sponsor' ? document.getElementById('rsvp-company').value.trim() : '',
+      sponsorship: type === 'sponsor' ? document.getElementById('rsvp-sponsorship').value : '',
+      date:        new Date().toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' })
+    };
+
+    responses.unshift(entry);
+    save();
+
+    document.getElementById('rsvp-form-wrap').style.display = 'none';
+    document.getElementById('rsvp-success').style.display   = 'block';
+  }
+
+  function resetRSVP() {
+    attend = null;
+    ['rsvp-name', 'rsvp-msg', 'rsvp-company'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('rsvp-type').value = 'guest';
+    document.getElementById('sponsor-fields').style.display = 'none';
+    document.getElementById('btn-yes').className = 'attend-btn';
+    document.getElementById('btn-no').className  = 'attend-btn';
+    document.getElementById('rsvp-form-wrap').style.display = 'block';
+    document.getElementById('rsvp-success').style.display   = 'none';
+  }
+
+
+  /* ─── RESPONSES TABLE ─── */
+  function setFilter(f, el) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    renderResponses();
+  }
+
+  function deleteEntry(id) {
+    responses = responses.filter(r => r.id !== id);
+    save();
+    renderResponses();
+  }
+
+  function renderResponses() {
+    const filtered = responses.filter(r => {
+      if (currentFilter === 'all') return true;
+      if (currentFilter === 'yes' || currentFilter === 'no') return r.attend === currentFilter;
+      return r.type === currentFilter;
+    });
+
+    const tbody = document.getElementById('resp-tbody');
+    tbody.innerHTML = '';
+    document.getElementById('empty-state').style.display = filtered.length ? 'none' : 'block';
+
+    filtered.forEach(r => {
+      const tr = document.createElement('tr');
+      const extra = (r.type === 'sponsor' && r.company)
+        ? `<br><span style="font-size:10px;color:var(--text-tertiary);">${r.company} · ${r.sponsorship}</span>`
+        : '';
+      tr.innerHTML = `
+        <td>
+          <span style="font-weight:500">${r.name}</span>${extra}
+          <br><span style="font-size:10px;color:var(--text-tertiary);">${r.date}</span>
+        </td>
+        <td><span class="badge badge-${r.type}">${r.type}</span></td>
+        <td><span class="badge badge-${r.attend === 'yes' ? 'yes' : 'no'}">${r.attend === 'yes' ? 'Attending' : 'Declined'}</span></td>
+        <td style="color:var(--text-secondary);font-size:12px;max-width:140px;">${r.msg || '—'}</td>
+        <td><button class="del-btn" onclick="deleteEntry(${r.id})" title="Remove">×</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    const yes      = responses.filter(r => r.attend === 'yes').length;
+    const no       = responses.filter(r => r.attend === 'no').length;
+    const sponsors = responses.filter(r => r.type === 'sponsor').length;
+    document.getElementById('stats-row').innerHTML = `
+      <div class="stat-pill"><strong>${responses.length}</strong> total</div>
+      <div class="stat-pill"><strong>${yes}</strong> attending</div>
+      <div class="stat-pill"><strong>${no}</strong> declined</div>
+      <div class="stat-pill"><strong>${sponsors}</strong> sponsors</div>
+    `;
+  }
+
+
+  /* ─── COUNTDOWN TIMER ───
+     ── EDIT: Change the wedding date/time and timezone offset below ──
+     Format: 'YYYY-MM-DDTHH:MM:SS+HH:MM'  (+08:00 = Philippine Time)       */
+  const WEDDING_DATE = new Date('2027-09-24T16:00:00+08:00');
+
+  function updateCountdown() {
+    const diff = WEDDING_DATE - new Date();
+    if (diff <= 0) {
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => {
+        document.getElementById(id).textContent = '0';
+      });
+      return;
+    }
+    document.getElementById('cd-days').textContent  = Math.floor(diff / 86400000);
+    document.getElementById('cd-hours').textContent = Math.floor((diff % 86400000) / 3600000);
+    document.getElementById('cd-mins').textContent  = Math.floor((diff % 3600000) / 60000);
+    document.getElementById('cd-secs').textContent  = Math.floor((diff % 60000) / 1000);
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+
+  /* ─── PHOTO UPLOAD ─── */
+  document.getElementById('photo-input').addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = document.getElementById('couple-photo');
+      img.src = e.target.result;
+      img.style.display = 'block';
+      document.getElementById('photo-placeholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+
+  /* ─── INIT ─── */
+  renderResponses();
+
+</script>
+</body>
+</html>
