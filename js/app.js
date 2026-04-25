@@ -143,7 +143,19 @@ document.addEventListener('DOMContentLoaded', () => {
   renderResponses();
 
   const params = new URLSearchParams(window.location.search);
-  const token = params.get('token');
+  let token = params.get('token');
+  // Fallbacks: some hosts may strip query on redirects. Try hash or pathname segment.
+  if (!token) {
+    const hash = (window.location.hash || '').replace(/^#/, '');
+    const hp = new URLSearchParams(hash);
+    if (hp.get('token')) token = hp.get('token');
+  }
+  if (!token) {
+    // try last pathname segment (e.g. /wedding/<token>)
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    const last = parts[parts.length - 1] || '';
+    if (/^[0-9a-fA-F]{16,64}$/.test(last)) token = last;
+  }
   const admin  = params.get('admin');
   // invite param is ignored for access control; token (or admin) is required to view
   let invite = (params.get('invite') || '').toLowerCase();
