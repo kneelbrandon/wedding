@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════
    js/rsvp.js
    RSVP form: attend selection, sponsor fields,
    form submission, success state, reset
@@ -23,7 +23,16 @@ function toggleSponsor() {
   fields.style.display = type.value === 'sponsor' ? 'block' : 'none';
 }
 
-/* NOTE: applyInviteType is implemented in js/app.js to centralize invite handling. */
+/* Apply invite type from URL (preselects guest type and toggles sponsor fields).
+   Accepts 'guest', 'entourage', 'sponsor' — ignores unknown values. */
+function applyInviteType(type) {
+  const typeEl = document.getElementById('rsvp-type');
+  if (!typeEl) return;
+  if (['guest', 'entourage', 'sponsor'].includes(type)) {
+    typeEl.value = type;
+    toggleSponsor();
+  }
+}
 
 /* Submit RSVP */
 function submitRSVP() {
@@ -73,11 +82,6 @@ function resetRSVP() {
 
   const typeEl = document.getElementById('rsvp-type');
   if (typeEl) typeEl.value = 'guest';
-
-  // Update visible role display if present
-  const disp = document.getElementById('rsvp-role-display');
-  if (disp) disp.textContent = 'Guest';
-  if (typeof toggleSponsor === 'function') toggleSponsor();
 
   const sponsorFields = document.getElementById('sponsor-fields');
   if (sponsorFields) sponsorFields.style.display = 'none';

@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════
    js/app.js
    App entry point: page navigation, init
    ═══════════════════════════════════════════════ */
@@ -91,31 +91,11 @@ function showInviteBanner(role, person, nickname) {
   if (!role) { banner.style.display = 'none'; return; }
   const friendly = role === 'entourage' ? 'Entourage' : role === 'sponsor' ? 'Sponsor' : 'Guest';
   if (person && nickname) {
-    banner.innerHTML = `
-      <div class="invite-inner">
-        <div class="invite-deco">&nbsp;</div>
-        <div class="invite-text">
-          <div class="invite-greet">Hi, ${escapeHtml(person)}</div>
-          <div class="invite-as">we want to invite you as "${escapeHtml(nickname)}"</div>
-        </div>
-      </div>`;
+    banner.innerHTML = `<div class="invite-greet">Hi, ${escapeHtml(person)}</div><div class="invite-as">we want to invite you as "${escapeHtml(nickname)}"</div>`;
   } else if (person) {
-    banner.innerHTML = `
-      <div class="invite-inner">
-        <div class="invite-deco">&nbsp;</div>
-        <div class="invite-text">
-          <div class="invite-greet">Hi, ${escapeHtml(person)}</div>
-          <div class="invite-as">Invitation role: ${friendly}</div>
-        </div>
-      </div>`;
+    banner.innerHTML = `<div class="invite-greet">Hi, ${escapeHtml(person)}</div><div class="invite-as">Invitation role: ${friendly}</div>`;
   } else if (nickname) {
-    banner.innerHTML = `
-      <div class="invite-inner">
-        <div class="invite-deco">&nbsp;</div>
-        <div class="invite-text">
-          <div class="invite-as">We want to invite you as "${escapeHtml(nickname)}" (${friendly}).</div>
-        </div>
-      </div>`;
+    banner.innerHTML = `<div class="invite-as">We want to invite you as "${escapeHtml(nickname)}" (${friendly}).</div>`;
   } else {
     banner.textContent = `This invitation is for: ${friendly}.`;
   }
@@ -144,64 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
-  const admin  = params.get('admin');
-  // invite param is ignored for access control; token (or admin) is required to view
   let invite = (params.get('invite') || '').toLowerCase();
+  const admin  = params.get('admin');
   let inviteName = null;
-
-  // Access control: if no token and no admin, show overlay and do not reveal site
-  const overlay = document.getElementById('access-overlay');
-  const wrap = document.querySelector('.wrap');
-  function showOverlay(msg) {
-    if (wrap) wrap.style.display = 'none';
-    if (!overlay) return;
-    overlay.style.display = 'flex';
-    const msgEl = document.getElementById('access-token-msg');
-    if (msgEl) { msgEl.textContent = msg || ''; msgEl.style.display = msg ? 'block' : 'none'; }
-  }
-  function hideOverlay() {
-    if (wrap) wrap.style.display = '';
-    if (!overlay) return;
-    overlay.style.display = 'none';
-  }
-
-  // Validate token if provided using getInviteByToken (if available)
-  let tokenValid = false;
-  if (token) {
-    if (typeof getInviteByToken === 'function') {
-      tokenValid = !!getInviteByToken(token);
-    } else {
-      tokenValid = true; // accept token if no mapping exists
-    }
-  }
-
-  // If neither token nor admin present or token invalid, show overlay
-  if (!tokenValid && !admin) {
-    showOverlay();
-    // wire overlay controls
-    if (overlay) {
-      const input = document.getElementById('access-token-input');
-      const submit = document.getElementById('access-token-submit');
-      const cancel = document.getElementById('access-token-cancel');
-      const msgEl = document.getElementById('access-token-msg');
-      if (submit) submit.addEventListener('click', () => {
-        const v = input ? input.value.trim() : '';
-        if (!v) { if (msgEl) { msgEl.textContent = 'Enter a token.'; msgEl.style.display = 'block'; } return; }
-        if (typeof getInviteByToken === 'function') {
-          const rec = getInviteByToken(v);
-          if (!rec) { if (msgEl) { msgEl.textContent = 'Invalid token.'; msgEl.style.display = 'block'; } return; }
-        }
-        // valid — reload with token param
-        const newUrl = window.location.pathname + '?token=' + encodeURIComponent(v);
-        window.location.href = newUrl;
-      });
-      if (cancel) cancel.addEventListener('click', () => { 
-        if (msgEl) { msgEl.textContent = 'Access requires a valid token.'; msgEl.style.display = 'block'; }
-        if (input) input.value = '';
-      });
-    }
-    return; // stop further initialization until valid token/admin
-  }
 
   // If token param present, prefer token lookup from INVITE_TOKENS
   if (token && typeof getInviteByToken === 'function') {
@@ -232,7 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // nickname is shown in the invite banner on the first page; no modal needed
+    // If nickname is present in token, show modal
+    if (window.__inviteNick) {
+      showInviteModal(window.__inviteNick, invite);
+    }
   }
 
   // Show Responses tab only if admin param present (owner link)
