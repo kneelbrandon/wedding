@@ -1,0 +1,85 @@
+﻿/* ═══════════════════════════════════════════════
+   js/app.js
+   App entry point: page navigation, init
+   ═══════════════════════════════════════════════ */
+
+/* Switch between Invitation / RSVP / Responses tabs */
+function showPage(p) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+
+  const page = document.getElementById('page-' + p);
+  if (page) page.classList.add('active');
+
+  const tabOrder = ['invite', 'rsvp', 'responses'];
+  const tabIdx   = tabOrder.indexOf(p);
+  const tabs     = document.querySelectorAll('.tab');
+  if (tabs[tabIdx]) tabs[tabIdx].classList.add('active');
+
+  // Re-render table when switching to responses
+  if (p === 'responses') renderResponses();
+}
+
+/* Toggle collapsible info block (Dress Code / Program) */
+function toggleInfo(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  if (body) body.classList.toggle('open');
+}
+
+/* Helper to show/hide the Responses tab and page */
+function setResponsesVisibility(visible) {
+  const tab = document.getElementById('tab-responses');
+  const page = document.getElementById('page-responses');
+  if (tab) tab.style.display = visible ? '' : 'none';
+  if (page) page.style.display = visible ? '' : 'none';
+}
+
+/* Show an invite banner and optionally highlight role-specific parts */
+function showInviteBanner(role) {
+  const banner = document.getElementById('invite-banner');
+  if (!banner) return;
+  if (!role) { banner.style.display = 'none'; return; }
+
+  const friendly = role === 'entourage' ? 'Entourage' : role === 'sponsor' ? 'Sponsor' : 'Guest';
+  banner.textContent = `This invitation is for: ${friendly}.`;
+  banner.style.display = 'block';
+
+  // Optionally highlight dress cards for the role (simple filter)
+  document.querySelectorAll('.dress-card').forEach(card => {
+    const r = card.getAttribute('data-role') || 'guest';
+    card.style.opacity = (r === role || role === 'guest' && r === 'guest') ? '1' : '0.45';
+  });
+}
+
+/* Parse URL params and initialise invite/admin behaviour */
+document.addEventListener('DOMContentLoaded', () => {
+  // Load saved responses on start (renders only if Responses tab visible)
+  renderResponses();
+
+  const params = new URLSearchParams(window.location.search);
+  const invite = (params.get('invite') || '').toLowerCase();
+  const admin  = params.get('admin');
+
+  // If invite param set, preselect guest type on the RSVP form and show banner
+  if (invite) {
+    applyInviteType(invite);
+    showInviteBanner(invite);
+  }
+
+  // Show Responses tab only if admin param present (owner link)
+  // Keep this simple: anyone with the admin link can view Responses.
+  const isAdmin = !!admin;
+  setResponsesVisibility(isAdmin);
+
+  // If admin present, and Responses are visible, show responses tab by default
+  if (isAdmin) {
+    // Ensure the Responses tab is selectable and render table
+    renderResponses();
+  } else {
+    // If not admin and currently on responses page (e.g., direct link), redirect to invite
+    if (window.location.hash.includes('responses') || (document.getElementById('page-responses') && document.getElementById('page-responses').classList.contains('active'))) {
+      showPage('invite');
+    }
+  }
+});

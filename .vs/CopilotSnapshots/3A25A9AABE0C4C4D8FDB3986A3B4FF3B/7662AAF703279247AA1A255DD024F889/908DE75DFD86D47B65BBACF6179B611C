@@ -1,0 +1,117 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Invite Token Generator (Browser)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;max-width:900px;margin:24px auto;padding:0 16px;color:#111}
+    textarea{width:100%;height:160px;font-family:monospace;margin-bottom:8px}
+    input,button,select{font-size:14px;padding:8px}
+    .row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+    pre{background:#f6f6f6;padding:12px;overflow:auto}
+    table{border-collapse:collapse;width:100%;margin-top:8px}
+    th,td{border:1px solid #ddd;padding:6px;text-align:left}
+  </style>
+</head>
+<body>
+  <h2>Invite Token Generator (Browser)</h2>
+  <p>Paste a JSON array <code>[{"name":"...","role":"guest"}, ...]</code> or CSV lines <code>Name,role</code> (one per line). Roles: <code>guest</code>, <code>entourage</code>, <code>sponsor</code>.</p>
+
+  <textarea id="input" placeholder='Example JSON:\n[\n  {"name":"Ana Santos","role":"guest"},\n  {"name":"Maricar Reyes","role":"entourage"}\]\n\nOr CSV:\nAna Santos,guest\nMaricar Reyes,entourage'></textarea>
+
+  <div class="row">
+    <button id="gen">Generate tokens</button>
+    <button id="copy" disabled>Copy JS to clipboard</button>
+    <a id="download" style="display:inline-block;margin-left:8px;" download="invites.js">Download invites.js</a>
+    <select id="tokenLen"><option value="8">8 bytes (default)</option><option value="12">12 bytes</option><option value="16">16 bytes</option></select>
+  </div>
+
+  <div id="tokensArea" style="display:none">
+    <h4>Generated mapping (tokens)</h4>
+    <pre id="mappingOut"></pre>
+    <h4>Download / copy</h4>
+    <pre id="fileOut" style="height:260px"></pre>
+    <h4>Token list</h4>
+    <table id="tokenTable"><thead><tr><th>Token</th><th>Role</th><th>Name</th></tr></thead><tbody></tbody></table>
+  </div>
+
+  <script>
+    function randomHex(lenBytes){
+      const arr = new Uint8Array(lenBytes);
+      crypto.getRandomValues(arr);
+      return Array.from(arr).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+
+    function parseInput(text){
+      text = text.trim();
+      if(!text) return [];
+      // Try JSON
+      try{
+        const j = JSON.parse(text);
+        if(Array.isArray(j)) return j.map(it => ({name: it.name || '', role: (it.role||'guest').toLowerCase()}));
+      }catch(e){}
+      // Fallback to CSV lines
+      const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      const out = [];
+      for(const l of lines){
+        const parts = l.split(',').map(p=>p.trim());
+        if(parts.length>=2) out.push({name: parts[0], role: parts[1].toLowerCase()});
+        else out.push({name: parts[0], role: 'guest'});
+      }
+      return out;
+    }
+
+    document.getElementById('gen').addEventListener('click', ()=>{
+      const text = document.getElementById('input').value;
+      const items = parseInput(text);
+      if(items.length===0){ alert('No entries found'); return; }
+      const tokenLen = parseInt(document.getElementById('tokenLen').value,10);
+      const mapping = {};
+      const rows = [];
+      for(const it of items){
+        let token;
+        do { token = randomHex(tokenLen); } while(mapping[token]);
+        mapping[token] = { role: (it.role||'guest'), name: it.name || '' };
+        rows.push({token, role: mapping[token].role, name: mapping[token].name});
+      }
+      const now = new Date().toISOString();
+      const fileContent = `// Generated invites.js - ${now}\n`+
+        `// Paste this into js/invites.js in your project (or use the Download link).\n`+
+        `const INVITE_TOKENS = ${JSON.stringify(mapping,null,2)};\n\n`+
+        `function getInviteByToken(token) {\n  if (!token) return null;\n  return INVITE_TOKENS[token] || null;\n}\n`;
+
+      document.getElementById('mappingOut').textContent = JSON.stringify(mapping, null, 2);
+      document.getElementById('fileOut').textContent = fileContent;
+      const tbody = document.querySelector('#tokenTable tbody');
+      tbody.innerHTML = '';
+      for(const r of rows){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td style="font-family:monospace">${r.token}</td><td>${r.role}</td><td>${r.name}</td>`;
+        tbody.appendChild(tr);
+      }
+      document.getElementById('tokensArea').style.display = '';
+
+      // prepare download link
+      const blob = new Blob([fileContent], {type: 'application/javascript'});
+      const url = URL.createObjectURL(blob);
+      const a = document.getElementById('download');
+      a.href = url;
+      a.download = 'invites.js';
+
+      // enable copy
+      const copyBtn = document.getElementById('copy');
+      copyBtn.disabled = false;
+      copyBtn.onclick = async () => {
+        try{
+          await navigator.clipboard.writeText(fileContent);
+          copyBtn.textContent = 'Copied!';
+          setTimeout(()=> copyBtn.textContent = 'Copy JS to clipboard', 1500);
+        }catch(e){
+          alert('Copy failed. You can select and copy the text manually.');
+        }
+      };
+    });
+  </script>
+</body>
+</html>
