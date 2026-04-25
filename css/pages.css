@@ -1,0 +1,282 @@
+/* ═══════════════════════════════════════════════
+   pages.css
+   Page-specific styles:
+   Invitation hero, countdown, dress code,
+   program, RSVP form, success state
+   ═══════════════════════════════════════════════ */
+
+/* ─── HERO (Invitation page) ─── */
+.hero {
+  text-align: center;
+  padding: 2.5rem var(--page-padding) 1.5rem;
+}
+.hero-date {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+.hero-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+/* ── EDIT: Adjust font size of names here ── */
+.hero-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 300;
+  line-height: 2.4;
+  color: var(--text-primary);
+}
+.hero-amp {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  display: block;
+  line-height: 1;
+}
+.hero-divider {
+  width: 40px;
+  height: 0.5px;
+  background: var(--border-strong);
+  margin: 1.5rem auto;
+}
+.hero-venue {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  line-height: 2.1;
+}
+
+/* ─── COUNTDOWN ─── */
+.countdown-wrap {
+  display: flex;
+  margin: 1.75rem var(--page-padding);
+  border: 0.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.countdown-unit {
+  flex: 1;
+  text-align: center;
+  padding: 16px 8px;
+  border-right: 0.5px solid var(--border-light);
+}
+.countdown-unit:last-child { border-right: none; }
+/* ── EDIT: Change font size of countdown numbers ── */
+.countdown-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--text-primary);
+  display: block;
+}
+.countdown-lbl {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-top: 5px;
+  display: block;
+}
+
+/* ─── RSVP CTA (bottom of invitation) ─── */
+.rsvp-cta {
+  margin: 0 var(--page-padding) var(--section-gap);
+  border: 0.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--bg-primary);
+}
+.rsvp-cta-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.4rem;
+}
+.rsvp-cta-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* ─── DRESS CODE ─── */
+.dress-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.dress-card {
+  padding: 1rem;
+  border: 0.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+/* ── EDIT: Change swatch size here ── */
+.dress-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  border: 0.5px solid var(--border-light);
+}
+.dress-role {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.dress-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+.dress-note {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.dress-notice {
+  padding: 10px 14px;
+  border: 0.5px solid var(--border-light);
+  border-radius: var(--radius-sm);
+}
+.dress-notice-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+.dress-notice p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ─── PROGRAM OF EVENTS ─── */
+.program-item {
+  display: flex;
+  gap: 1rem;
+  padding: 11px 0;
+  border-bottom: 0.5px solid var(--border-light);
+}
+.program-item:last-child { border-bottom: none; padding-bottom: 0; }
+.prog-time {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  width: 64px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.prog-event { font-size: 13px; color: var(--text-primary); }
+.prog-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+/* ─── RSVP FORM ─── */
+.rsvp-card {
+  border: 0.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  background: var(--bg-primary);
+}
+.rsvp-card label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.rsvp-card input,
+.rsvp-card select,
+.rsvp-card textarea {
+  width: 100%;
+  background: none;
+  border: 0.5px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.rsvp-card input:focus,
+.rsvp-card select:focus,
+.rsvp-card textarea:focus { border-color: var(--border-strong); }
+.rsvp-card textarea { resize: vertical; min-height: 80px; }
+.optional-tag { font-size: 10px; color: var(--text-tertiary); }
+.attend-row { display: flex; gap: 8px; margin-bottom: 1rem; }
+.attend-btn {
+  flex: 1;
+  padding: 11px;
+  border: 0.5px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: none;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.attend-btn.selected-yes {
+  background: var(--bg-success);
+  border-color: #7ab84d;
+  color: var(--text-success);
+}
+.attend-btn.selected-no {
+  background: var(--bg-danger);
+  border-color: #e24b4a;
+  color: var(--text-danger);
+}
+
+/* ─── RSVP SUCCESS STATE ─── */
+.success-msg {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.success-msg p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 26px;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+.success-msg span { font-size: 13px; color: var(--text-secondary); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 480px) {
+  .dress-grid { grid-template-columns: 1fr; }
+  .hero-names { font-size: 13px; }
+  .hero-amp   { font-size: 38px; }
+  .countdown-num { font-size: 26px; }
+  .attend-row { flex-direction: column; }
+}
