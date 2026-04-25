@@ -1,0 +1,87 @@
+/* ═══════════════════════════════════════════════
+   js/rsvp.js
+   RSVP form: attend selection, sponsor fields,
+   form submission, success state, reset
+   ═══════════════════════════════════════════════ */
+
+let attend = null; // 'yes' or 'no'
+
+/* Toggle attend buttons */
+function selectAttend(val) {
+  attend = val;
+  const btnYes = document.getElementById('btn-yes');
+  const btnNo  = document.getElementById('btn-no');
+  if (btnYes) btnYes.className = 'attend-btn' + (val === 'yes' ? ' selected-yes' : '');
+  if (btnNo)  btnNo.className  = 'attend-btn' + (val === 'no'  ? ' selected-no'  : '');
+}
+
+/* Show/hide sponsor-only fields based on guest type */
+function toggleSponsor() {
+  const type    = document.getElementById('rsvp-type');
+  const fields  = document.getElementById('sponsor-fields');
+  if (!type || !fields) return;
+  fields.style.display = type.value === 'sponsor' ? 'block' : 'none';
+}
+
+/* Submit RSVP */
+function submitRSVP() {
+  const nameEl = document.getElementById('rsvp-name');
+  const name   = nameEl ? nameEl.value.trim() : '';
+
+  if (!name)   { alert('Please enter your name.'); return; }
+  if (!attend) { alert('Please indicate if you will attend.'); return; }
+
+  const type    = document.getElementById('rsvp-type')?.value || 'guest';
+  const msg     = document.getElementById('rsvp-msg')?.value.trim() || '';
+  const company = type === 'sponsor' ? (document.getElementById('rsvp-company')?.value.trim() || '') : '';
+  const sponsorship = type === 'sponsor' ? (document.getElementById('rsvp-sponsorship')?.value || '') : '';
+
+  const entry = {
+    id:          Date.now(),
+    name,
+    type,
+    attend,
+    msg,
+    company,
+    sponsorship,
+    date: new Date().toLocaleDateString('en-PH', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    })
+  };
+
+  // Add to responses array (defined in responses.js)
+  responses.unshift(entry);
+  saveResponses();
+
+  // Show success state
+  const formWrap = document.getElementById('rsvp-form-wrap');
+  const success  = document.getElementById('rsvp-success');
+  if (formWrap) formWrap.style.display = 'none';
+  if (success)  success.style.display  = 'block';
+}
+
+/* Reset form back to blank */
+function resetRSVP() {
+  attend = null;
+
+  ['rsvp-name', 'rsvp-msg', 'rsvp-company'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+
+  const typeEl = document.getElementById('rsvp-type');
+  if (typeEl) typeEl.value = 'guest';
+
+  const sponsorFields = document.getElementById('sponsor-fields');
+  if (sponsorFields) sponsorFields.style.display = 'none';
+
+  const btnYes = document.getElementById('btn-yes');
+  const btnNo  = document.getElementById('btn-no');
+  if (btnYes) btnYes.className = 'attend-btn';
+  if (btnNo)  btnNo.className  = 'attend-btn';
+
+  const formWrap = document.getElementById('rsvp-form-wrap');
+  const success  = document.getElementById('rsvp-success');
+  if (formWrap) formWrap.style.display = 'block';
+  if (success)  success.style.display  = 'none';
+}

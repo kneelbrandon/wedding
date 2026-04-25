@@ -1,0 +1,78 @@
+/* ═══════════════════════════════════════════════
+   base.css
+   Reset, CSS variables, global layout
+   ═══════════════════════════════════════════════ */
+
+/* ─── RESET ─── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── CSS VARIABLES
+   ── EDIT: Change colors here to retheme the whole app ── */
+:root {
+  /* Backgrounds */
+  --bg-page:          #FAFAF8;
+  --bg-primary:       #ffffff;
+  --bg-secondary:     #F5F3EF;
+  --bg-success:       #EAF3DE;
+  --bg-danger:        #FCEBEB;
+  --bg-info:          #E6F1FB;
+
+  /* Text */
+  --text-primary:     #1a1a1a;
+  --text-secondary:   #6b6b6b;
+  --text-tertiary:    #aaaaaa;
+  --text-success:     #3B6D11;
+  --text-danger:      #A32D2D;
+  --text-info:        #185FA5;
+
+  /* Borders */
+  --border-light:     rgba(0, 0, 0, 0.10);
+  --border-mid:       rgba(0, 0, 0, 0.18);
+  --border-strong:    rgba(0, 0, 0, 0.30);
+
+  /* Shape */
+  --radius-sm:        2px;
+  --radius-md:        4px;
+
+  /* Spacing */
+  --section-gap:      1rem;
+  --page-padding:     1.5rem;
+}
+
+/* ─── BASE ─── */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── LAYOUT ─── */
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 0 4rem;
+}
+
+/* ─── PAGES ─── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── SECTION ─── */
+.section { padding: 0 var(--page-padding); }
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 480px) {
+  :root { --page-padding: 1rem; }
+}
